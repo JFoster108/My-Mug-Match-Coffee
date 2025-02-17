@@ -1,24 +1,29 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class Favorite extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database.js';
+import User from './User.js';
+import Coffee from './Coffee.js';
+
+const Favorite = sequelize.define('Favorite', {
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: User,
+      key: 'id'
+    }
+  },
+  coffeeId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: Coffee,
+      key: 'id'
     }
   }
-  Favorite.init({
-    userId: DataTypes.INTEGER,
-    coffeeId: DataTypes.INTEGER
-  }, {
-    sequelize,
-    modelName: 'Favorite',
-  });
-  return Favorite;
-};
+});
+
+// Define associations
+Favorite.belongsTo(User, { foreignKey: 'userId' });
+Favorite.belongsTo(Coffee, { foreignKey: 'coffeeId' });
+
+export default Favorite;
