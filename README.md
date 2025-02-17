@@ -1,2 +1,2 @@
-# My-Mug-Match-Coffee
-This is a website that lets you pick your favorite coffee and websites.
+# Mug-Match-Coffee
+A coffee recommendation application for coffee enthusiasts to find what coffee they like, find nearby shops, and save them to their profile.
