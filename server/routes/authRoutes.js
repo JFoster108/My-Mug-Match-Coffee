@@ -1,12 +1,12 @@
 import express from 'express';
-import { signup, login } from '../controllers/authController.js'; // Now actually used
+import { signup, login, verifyToken } from '../controllers/authController.js'; // ✅ Make sure verifyToken is imported
 import authMiddleware from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// Routes
 router.post('/signup', signup);
 router.post('/login', login);
-router.get('/verify', authMiddleware, verifyToken);
+router.get('/verify', authMiddleware, verifyToken); // ✅ This should work now
 
 export default router;
+

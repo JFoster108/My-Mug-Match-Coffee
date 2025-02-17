@@ -15,6 +15,22 @@ export const getCoffeeRecommendations = async (req, res) => {
   }
 };
 
+export const saveCoffeeMatch = async (req, res) => {
+  try {
+    const { coffee_id } = req.body;
+    const userId = req.user.id;
+
+    if (!coffee_id) return res.status(400).json({ message: "Coffee ID is required" });
+
+    const favorite = await Favorite.create({ userId, coffeeId: coffee_id });
+
+    res.status(201).json({ message: "Coffee match saved successfully", favorite });
+  } catch (err) {
+    console.error("Error saving coffee match:", err);
+    res.status(500).json({ message: "Error saving coffee match", error: err.message });
+  }
+};
+
 // Retrieve saved coffee matches for a user
 export const getSavedCoffeeMatches = async (req, res) => {
   try {
