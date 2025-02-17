@@ -15,11 +15,18 @@ export const saveQuizResults = async (req, res) => {
 // Retrieve past quiz results for the user
 export const getQuizResults = async (req, res) => {
   try {
+    console.log("Fetching quiz results for user:", req.user);
+
     const userId = req.user.id;
+    if (!userId) return res.status(400).json({ message: "User ID missing in token" });
+
     const user = await User.findByPk(userId);
-    if (!user) return res.status(404).json({ message: 'User not found' });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
     res.json({ quizResults: user.quizResults });
   } catch (err) {
-    res.status(500).json({ message: 'Error fetching quiz results' });
+    console.error("Error fetching quiz results:", err);
+    res.status(500).json({ message: "Error fetching quiz results", error: err.message });
   }
 };
+

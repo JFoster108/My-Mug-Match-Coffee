@@ -18,10 +18,21 @@ export const getCoffeeRecommendations = async (req, res) => {
 // Retrieve saved coffee matches for a user
 export const getSavedCoffeeMatches = async (req, res) => {
   try {
+    console.log("Fetching saved coffee matches for user:", req.user);
+
     const userId = req.user.id;
-    const savedMatches = await Favorite.findAll({ where: { userId }, include: Coffee });
+    if (!userId) return res.status(400).json({ message: "User ID missing in token" });
+
+    const savedMatches = await Favorite.findAll({
+      where: { userId },
+      include: Coffee,
+    });
+
+    console.log("Saved Matches:", savedMatches); // ✅ Log to see if matches exist
+
     res.json(savedMatches.map(match => match.Coffee));
   } catch (err) {
-    res.status(500).json({ message: 'Error fetching saved coffee matches' });
+    console.error("Error fetching saved coffee matches:", err);
+    res.status(500).json({ message: "Error fetching saved coffee matches", error: err.message });
   }
 };

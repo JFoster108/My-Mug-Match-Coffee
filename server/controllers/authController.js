@@ -30,7 +30,10 @@ export const signup = async (req, res) => {
     }
   };
   
-  
+  export const verifyToken = (req, res) => {
+    res.json({ message: "Token is valid", user: req.user });
+  };
+    
 
 // User Login
 export const login = async (req, res) => {
@@ -53,3 +56,4 @@ export const login = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
