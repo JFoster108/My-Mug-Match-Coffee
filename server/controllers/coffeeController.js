@@ -1,6 +1,6 @@
-import Coffee from '../models/Coffee.js';
-import Favorite from '../models/Favorite.js';
-import User from '../models/User.js';
+import Coffee from '../db/models/Coffee.js';
+import Favorite from '../db/models/Favorite.js';
+import User from '../db/models/User.js';
 
 // Fetch coffee recommendations based on quiz results
 export const getCoffeeRecommendations = async (req, res) => {

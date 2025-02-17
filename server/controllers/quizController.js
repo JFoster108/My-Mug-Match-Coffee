@@ -1,4 +1,4 @@
-import User from '../models/User.js';
+import User from '../db/models/User.js';
 
 // Save quiz results for the user
 export const saveQuizResults = async (req, res) => {

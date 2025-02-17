@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import User from './User.js';
 import Coffee from './Coffee.js';
 import Favorite from './Favorite.js';
-import database from '../config/database.js';
+import database from '../../config/database.js';
 
 dotenv.config();
 

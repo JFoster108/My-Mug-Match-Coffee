@@ -1,12 +1,18 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../config/database.js';
+import sequelize from '../../config/database.js';
 
 const User = sequelize.define('User', {
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
+  user_id: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true,
   },
   email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  username: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
@@ -14,11 +20,7 @@ const User = sequelize.define('User', {
   password: {
     type: DataTypes.STRING,
     allowNull: false,
-  },
-  quizResults: {
-    type: DataTypes.JSON, // Stores quiz results
-    allowNull: true,
-  },
-});
+  }
+}, { timestamps: true });
 
 export default User;
