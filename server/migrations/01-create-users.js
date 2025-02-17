@@ -22,12 +22,12 @@ export default {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      created_at: {
+      createdAt: {  // ✅ Explicitly define createdAt
         type: DataTypes.DATE,
         allowNull: false,
         defaultValue: DataTypes.NOW,
       },
-      updated_at: {
+      updatedAt: {  // ✅ Explicitly define updatedAt
         type: DataTypes.DATE,
         allowNull: false,
         defaultValue: DataTypes.NOW,

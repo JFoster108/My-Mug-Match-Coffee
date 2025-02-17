@@ -18,7 +18,17 @@ const Coffee = sequelize.define('Coffee', {
   flavor_profile: {
     type: DataTypes.TEXT,
     allowNull: true,
-  }
-});
+  },
+  createdAt: {  // ✅ Explicitly define createdAt
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: DataTypes.NOW,
+  },
+  updatedAt: {  // ✅ Explicitly define updatedAt
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: DataTypes.NOW,
+  },
+}, { timestamps: true });
 
 export default Coffee;

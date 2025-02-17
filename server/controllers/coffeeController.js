@@ -5,10 +5,13 @@ import User from '../db/models/User.js';
 // Fetch coffee recommendations based on quiz results
 export const getCoffeeRecommendations = async (req, res) => {
   try {
+    console.log("Fetching coffee recommendations for user:", req.user);
+
     const coffeeRecommendations = await Coffee.findAll();
     res.json(coffeeRecommendations);
   } catch (err) {
-    res.status(500).json({ message: 'Error fetching coffee recommendations' });
+    console.error("Error in getCoffeeRecommendations:", err);
+    res.status(500).json({ message: 'Error fetching coffee recommendations', error: err.message });
   }
 };
 

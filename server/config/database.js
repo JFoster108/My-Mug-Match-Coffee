@@ -10,12 +10,12 @@ const sequelize = new Sequelize(
   {
     host: process.env.DB_HOST,
     dialect: 'postgres',
-    logging: false, // Set to true for debugging SQL queries
+    logging: true,
   }
 );
 
 sequelize.authenticate()
-  .then(() => console.log('Connected to PostgreSQL successfully'))
-  .catch(err => console.error('Error connecting to PostgreSQL:', err));
+  .then(() => console.log('Database connected successfully'))
+  .catch(err => console.log('Database connection error:', err));
 
 export default sequelize;

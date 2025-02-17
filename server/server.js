@@ -1,11 +1,9 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import { Sequelize } from 'sequelize';
 import authRoutes from './routes/authRoutes.js';
 import coffeeRoutes from './routes/coffeeRoutes.js';
 import quizRoutes from './routes/quizRoutes.js';
 import shopRoutes from './routes/shopRoutes.js';
-import authMiddleware from './middleware/authMiddleware.js';
 import database from './config/database.js';
 
 dotenv.config();
@@ -22,8 +20,7 @@ app.use('/api/shops', shopRoutes);
 const PORT = process.env.PORT || 5000;
 
 // Database connection
-const sequelize = database;
-sequelize.authenticate()
+database.authenticate()
   .then(() => console.log('Database connected successfully'))
   .catch(err => console.log('Database connection error:', err));
 
