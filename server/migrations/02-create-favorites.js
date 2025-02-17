@@ -1,18 +1,20 @@
 import { DataTypes } from 'sequelize';
 
+import { DataTypes } from 'sequelize';
+
 export default {
   async up(queryInterface) {
-    await queryInterface.createTable('Favorites', { // ✅ Ensure it's capitalized
+    await queryInterface.createTable('Favorites', {
       id: {
         type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
+        defaultValue: DataTypes.UUIDV4, // ✅ Ensure UUID is generated
         primaryKey: true,
       },
       userId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: 'Users', // ✅ Ensure this matches your Users table
+          model: 'Users',
           key: 'user_id',
         },
         onDelete: 'CASCADE',
@@ -21,7 +23,7 @@ export default {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: 'Coffees', // ✅ Ensure this matches your Coffees table
+          model: 'Coffees',
           key: 'coffee_id',
         },
         onDelete: 'CASCADE',
@@ -40,6 +42,6 @@ export default {
   },
 
   async down(queryInterface) {
-    await queryInterface.dropTable('Favorites'); // ✅ Ensure it's capitalized
+    await queryInterface.dropTable('Favorites');
   }
 };

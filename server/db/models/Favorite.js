@@ -4,26 +4,31 @@ import User from './User.js';
 import Coffee from './Coffee.js';
 
 const Favorite = sequelize.define('Favorite', {
+  id: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4, // ✅ Ensure a UUID is generated
+    primaryKey: true,
+  },
   userId: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
     allowNull: false,
     references: {
       model: User,
-      key: 'id'
-    }
+      key: 'user_id',
+    },
+    onDelete: 'CASCADE',
   },
   coffeeId: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
     allowNull: false,
     references: {
       model: Coffee,
-      key: 'id'
-    }
-  }
+      key: 'coffee_id',
+    },
+    onDelete: 'CASCADE',
+  },
+}, {
+  timestamps: true,
 });
-
-// Define associations
-Favorite.belongsTo(User, { foreignKey: 'userId' });
-Favorite.belongsTo(Coffee, { foreignKey: 'coffeeId' });
 
 export default Favorite;

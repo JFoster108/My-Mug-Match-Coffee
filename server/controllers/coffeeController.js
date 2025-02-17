@@ -1,5 +1,7 @@
-import Coffee from '../db/models/Coffee.js';
+import { validate as isUUID } from 'uuid';
+import { Op } from 'sequelize';
 import Favorite from '../db/models/Favorite.js';
+import Coffee from '../db/models/Coffee.js';
 import User from '../db/models/User.js';
 
 // Fetch coffee recommendations based on quiz results
@@ -17,11 +19,28 @@ export const getCoffeeRecommendations = async (req, res) => {
 
 export const saveCoffeeMatch = async (req, res) => {
   try {
+    console.log("Request Body:", req.body); // ✅ Log request body
+    console.log("Decoded User:", req.user); // ✅ Log user data
+
     const { coffee_id } = req.body;
-    const userId = req.user.id;
+    const userId = req.user.id; // ✅ Ensure userId is extracted
 
-    if (!coffee_id) return res.status(400).json({ message: "Coffee ID is required" });
+    if (!coffee_id) {
+      return res.status(400).json({ message: "Coffee ID is required" });
+    }
 
+    // ✅ Validate UUID format
+    if (!isUUID(coffee_id)) {
+      return res.status(400).json({ message: "Invalid UUID format for coffee_id" });
+    }
+
+    // ✅ Check if coffee exists
+    const coffeeExists = await Coffee.findOne({ where: { coffee_id } });
+    if (!coffeeExists) {
+      return res.status(404).json({ message: "Coffee not found" });
+    }
+
+    // ✅ Save match (Ensure userId is passed)
     const favorite = await Favorite.create({ userId, coffeeId: coffee_id });
 
     res.status(201).json({ message: "Coffee match saved successfully", favorite });

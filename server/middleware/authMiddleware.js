@@ -15,12 +15,13 @@ const authMiddleware = (req, res, next) => {
   try {
     const verified = jwt.verify(token, process.env.JWT_SECRET);
     console.log("Decoded Token:", verified); // ✅ Log token data
-    req.user = verified;
+    req.user = verified; // ✅ Ensure user ID is set
     next();
   } catch (error) {
+    console.error("Token Verification Error:", error);
     return res.status(400).json({ message: "Invalid token." });
   }
 };
 
-
 export default authMiddleware;
+
