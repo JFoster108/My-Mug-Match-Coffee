@@ -6,7 +6,7 @@ import Coffee from './Coffee.js';
 const Favorite = sequelize.define('Favorite', {
   id: {
     type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4, // ✅ Ensure a UUID is generated
+    defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
   userId: {
@@ -30,5 +30,9 @@ const Favorite = sequelize.define('Favorite', {
 }, {
   timestamps: true,
 });
+
+// ✅ Define the association with Coffee
+Favorite.belongsTo(Coffee, { foreignKey: 'coffeeId', as: 'coffee' });
+Favorite.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 
 export default Favorite;

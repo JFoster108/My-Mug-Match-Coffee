@@ -60,12 +60,12 @@ export const getSavedCoffeeMatches = async (req, res) => {
 
     const savedMatches = await Favorite.findAll({
       where: { userId },
-      include: Coffee,
+      include: [{ model: Coffee, as: 'coffee' }], // ✅ Ensure association is used
     });
 
-    console.log("Saved Matches:", savedMatches); // ✅ Log to see if matches exist
+    console.log("Saved Matches:", savedMatches); // ✅ Log the matches
 
-    res.json(savedMatches.map(match => match.Coffee));
+    res.json(savedMatches.map(match => match.coffee));
   } catch (err) {
     console.error("Error fetching saved coffee matches:", err);
     res.status(500).json({ message: "Error fetching saved coffee matches", error: err.message });
