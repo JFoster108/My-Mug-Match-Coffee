@@ -10,7 +10,7 @@ import Login from "./pages/Login"; // ✅ Ensure Login.tsx is correctly imported
 
 const AppRouter = () => {
     // ✅ Tracks authentication state based on local storage
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!localStorage.getItem("token"));
+    const [_isAuthenticated, setIsAuthenticated] = useState<boolean>(!!localStorage.getItem("token"));
 
     // ✅ Function to update authentication state
     const handleLogin = () => {

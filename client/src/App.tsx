@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import "./index.css";
-import Login from "./pages/Login";
-import SavedMatches from "./components/SavedMatches";
-import { setAuthToken } from "./utils/api";
 
 
 
 const App: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!localStorage.getItem("token"));
+  const [_isAuthenticated, setIsAuthenticated] = useState<boolean>(!!localStorage.getItem("token"));
 
   const handleLogin = () => {
     setIsAuthenticated(true);

@@ -6,7 +6,7 @@ interface LoginProps {
   onLogin: () => void;  // ✅ Define onLogin prop explicitly
 }
 
-const Login: React.FC<LoginProps> = ({ onLogin }) => { 
+const Login: React.FC = () => { 
   const navigate = useNavigate(); // ✅ Enables redirection after login
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState<string | null>(null);
