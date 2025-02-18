@@ -1,13 +1,19 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
-const Dashboard: React.FC = () => {
+const Dashboard = () => {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-[#3E2A1C] via-[#B68D60] to-[#FFF5DC] text-center p-6">
-      <h1 className="text-5xl font-cursive text-gold">Mug Match Dashboard</h1>
-      <p className="italic text-lg text-secondary">Find your perfect coffee match! ☕</p>
-
-      <nav className="mt-6 space-x-4 text-lg font-semibold text-primary">
+    <div className="min-h-screen bg-gradient-to-b from-[#3D2B1F] to-[#D9B382] text-textDark p-6 relative flex flex-col items-center">
+      {/* Logout Button in the Top Left Corner */}
+      <button className="absolute top-6 left-6 bg-red-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-800 transition">
+        Logout
+      </button>
+      
+      {/* Title */}
+      <h1 className="text-5xl font-display text-center text-gold mb-4">Mug Match Coffee</h1>
+      <p className="text-xl text-center italic text-gold mb-6">You deserve a treat! &lt;3</p>
+      
+      {/* Navigation Bar */}
+      <nav className="bg-[#FFF5DC] py-3 px-8 shadow-md rounded-lg w-full max-w-4xl mx-auto flex justify-around text-lg font-semibold text-[#6B4426] border-2 border-gold">
         <Link to="/quiz" className="hover:text-accent">Coffee Quiz</Link>
         <Link to="/matches" className="hover:text-accent">Coffee Matches</Link>
         <Link to="/shops" className="hover:text-accent">Coffee Shops</Link>
@@ -15,24 +21,26 @@ const Dashboard: React.FC = () => {
         <Link to="/settings" className="hover:text-accent">Settings</Link>
       </nav>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 w-full max-w-5xl">
-        <div className="bg-secondary text-textDark p-6 rounded-xl shadow-md">
-          <h2 className="text-2xl font-cursive text-gold">Recommended Coffee</h2>
-          <p>Your personalized coffee recommendations based on your quiz results.</p>
-        </div>
-        <div className="bg-secondary text-textDark p-6 rounded-xl shadow-md">
-          <h2 className="text-2xl font-cursive text-gold">Nearby Coffee Shops</h2>
-          <p>Find coffee shops near you with the help of Google Places API.</p>
-        </div>
-        <div className="bg-secondary text-textDark p-6 rounded-xl shadow-md">
-          <h2 className="text-2xl font-cursive text-gold">Daily Coffee Fact</h2>
-          <p>Learn something new about coffee every day!</p>
-        </div>
+      {/* Main Dashboard Content */}
+      <div className="mt-12 flex flex-col md:flex-row gap-8 justify-center">
+        <section className="bg-[#E8A87C] p-6 rounded-lg shadow-lg text-center w-80 border-2 border-gold">
+          <h2 className="text-2xl font-display text-gold italic mb-2">Recommended Coffee</h2>
+          <hr className="border-t border-gold mb-4" />
+          <p>Recommended Coffee will appear here, and will be based on quiz results.</p>
+        </section>
+        
+        <section className="bg-[#E8A87C] p-6 rounded-lg shadow-lg text-center w-80 border-2 border-gold">
+          <h2 className="text-2xl font-display text-gold italic mb-2">Nearby Coffee Shops</h2>
+          <hr className="border-t border-gold mb-4" />
+          <p>With the help of an API, some shops will appear here.</p>
+        </section>
+        
+        <section className="bg-[#E8A87C] p-6 rounded-lg shadow-lg text-center w-80 border-2 border-gold">
+          <h2 className="text-2xl font-display text-gold italic mb-2">Daily Coffee Fact</h2>
+          <hr className="border-t border-gold mb-4" />
+          <p>With the help of an API, Coffee facts that cycle out daily will appear here.</p>
+        </section>
       </div>
-
-      <button className="mt-8 bg-primary text-white px-6 py-3 rounded-lg shadow-md hover:bg-accent transition">
-        Logout
-      </button>
     </div>
   );
 };
