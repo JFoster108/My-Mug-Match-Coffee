@@ -1,36 +1,73 @@
-// client/src/utils/api.ts
 import axios from "axios";
 
+// Define API response types
+export interface User {
+  id: string;
+  email: string;
+  name?: string;
+  username?: string;
+}
+
+export interface Coffee {
+  coffee_id: string;
+  name: string;
+  description: string;
+  flavor_profile: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Favorite {
+  id: string;
+  userId: string;
+  coffeeId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AuthResponse {
+  token: string;
+  user: User;
+}
+
+// Create Axios instance
 const API = axios.create({
-  baseURL: "/api", // Adjust this if your backend is deployed separately
+  baseURL: "http://localhost:5000/api", // Change this when deploying
 });
 
-// Fetch coffee recommendations based on quiz results
-export const fetchCoffeeRecommendations = async () => {
-  const response = await API.get("/coffee/recommendations");
-  return response.data;
+// Function to set authentication token in headers
+export const setAuthToken = (token: string | null): void => {
+  if (token) {
+    API.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  } else {
+    delete API.defaults.headers.common["Authorization"];
+  }
 };
 
-// Fetch saved coffee matches
-export const fetchSavedCoffeeMatches = async () => {
-  const response = await API.get("/coffee/matches");
-  return response.data;
-};
+// Authentication APIs
+export const signup = (userData: { name: string; username: string; email: string; password: string }) =>
+  API.post<AuthResponse>("/auth/signup", userData);
 
-// Fetch nearby coffee shops (Uses Google Places API)
-export const fetchNearbyCoffeeShops = async () => {
-  const response = await API.get("/shops/nearby");
-  return response.data;
-};
+export const login = (userData: { email: string; password: string }) =>
+  API.post<AuthResponse>("/auth/login", userData);
 
-// Fetch the daily coffee fact (Uses API Ninjas Fact API)
-export const fetchDailyCoffeeFact = async () => {
-  const response = await API.get("/coffee/fact");
-  return response.data;
-};
+export const verifyToken = () => API.get<{ message: string; user: User }>("/auth/verify");
 
-// Update user credentials
-export const updateUserCredentials = async (email: string, password: string) => {
-  const response = await API.put("/auth/update", { email, password });
-  return response.data;
-};
+// Coffee APIs
+export const getCoffeeRecommendations = () => API.get<Coffee[]>("/coffee/recommendations");
+
+export const getSavedMatches = () => API.get<Coffee[]>("/coffee/matches");
+
+export const saveCoffeeMatch = (coffeeId: string) => API.post<Favorite>("/coffee/matches", { coffee_id: coffeeId });
+
+// Quiz APIs
+export const saveQuizResults = (preferences: Record<string, string>) =>
+  API.post<{ message: string }>("/quiz/save", { preferences });
+
+export const getQuizResults = () => API.get<{ quizResults: Record<string, string> }>("/quiz/results");
+
+// Coffee Shops API (Google Places)
+export const getNearbyShops = (latitude: number, longitude: number) =>
+  API.get<{ name: string; address: string; rating: number }[]>(`/shops/nearby?latitude=${latitude}&longitude=${longitude}`);
+
+export default API;
