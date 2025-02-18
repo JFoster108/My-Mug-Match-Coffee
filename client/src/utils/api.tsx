@@ -104,19 +104,20 @@ export const getSavedMatches = async (): Promise<Coffee[]> => {
 };
 
 export const fetchNearbyCoffeeShops = async (latitude: number, longitude: number): Promise<CoffeeShop[]> => {
-  const response = await axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json`, {
-    params: {
-      location: `${latitude},${longitude}`,
-      radius: 5000,
-      type: "cafe",
-      key: GOOGLE_PLACES_API_KEY,
-    },
-  });
-
-  // Transform Google API response to match the CoffeeShop interface
+  const response = await axios.get(
+    `https://maps.googleapis.com/maps/api/place/nearbysearch/json`,
+    {
+      params: {
+        location: `${latitude},${longitude}`,
+        radius: 5000,
+        type: "cafe",
+        key: import.meta.env.VITE_GOOGLE_PLACES_API_KEY,
+      },
+    }
+  );
   return response.data.results.map((shop: any) => ({
     name: shop.name,
-    address: shop.vicinity, // Google API uses "vicinity" for address
+    address: shop.vicinity,
     rating: shop.rating || "No rating",
     place_id: shop.place_id,
   }));

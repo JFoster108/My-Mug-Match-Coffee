@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom global styles */
-body {
-  @apply bg-background text-textDark font-sans;
+.bg-background {
+  @apply bg-[#FFF5DC]; /* Light cream color */
 }
