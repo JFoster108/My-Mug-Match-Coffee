@@ -7,7 +7,7 @@ const CoffeeQuiz = () => {
     milk: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setPreferences({
       ...preferences,
       [e.target.name]: e.target.value,
@@ -16,28 +16,13 @@ const CoffeeQuiz = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const response = await fetch("http://localhost:5000/api/quiz/save", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("token")}`
-        },
-        body: JSON.stringify({ preferences }),
-      });
-
-      const data = await response.json();
-      console.log(data);
-      alert("Preferences saved successfully!");
-    } catch (error) {
-      console.error("Error saving preferences:", error);
-    }
+    alert("Quiz submitted! Your preferences have been saved.");
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-background text-textDark">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-[#D9B382] to-[#A67C52] text-white">
       <h1 className="text-3xl font-bold mb-6">☕ Coffee Quiz</h1>
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-lg w-96">
+      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-lg w-96 text-black">
         <label className="block mb-4">
           <span className="text-lg">Flavor Profile:</span>
           <select

@@ -1,44 +1,56 @@
-const Dashboard: React.FC = () => {
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-black to-[#D9B382] flex flex-col items-center text-white font-serif">
-      {/* Dashboard Header */}
-      <h1 className="text-4xl font-bold mt-6 tracking-wide">DASHBOARD</h1>
+import { Link, useNavigate } from "react-router-dom";
 
-      {/* Navigation */}
-      <nav className="mt-4 flex space-x-6 text-[#D9B382] italic text-lg">
-        <a href="#" className="hover:underline">Coffee Quiz</a>
-        <a href="#" className="hover:underline">Coffee Matches</a>
-        <a href="#" className="hover:underline">Coffee Shops</a>
-        <a href="#" className="hover:underline">Favorites</a>
-        <a href="#" className="hover:underline">Settings</a>
+const Dashboard = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // ✅ Remove token from storage
+    navigate("/"); // ✅ Redirect to login page
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-[#3D2B1F] to-[#D9B382] text-white flex flex-col items-center p-6">
+      {/* Header */}
+      <h1 className="text-5xl font-bold mt-6 tracking-wide">Mug Match Dashboard</h1>
+      <p className="italic text-lg text-gray-300 mt-2">Find your perfect coffee match! ☕</p>
+
+      {/* Navigation Bar */}
+      <nav className="mt-6 flex space-x-6 text-lg">
+        <Link to="/quiz" className="hover:underline">Coffee Quiz</Link>
+        <Link to="/matches" className="hover:underline">Coffee Matches</Link>
+        <Link to="/shops" className="hover:underline">Coffee Shops</Link>
+        <Link to="/favorites" className="hover:underline">Favorites</Link>
+        <Link to="/settings" className="hover:underline">Settings</Link>
       </nav>
 
-      {/* Main Content Container */}
-      <div className="mt-8 bg-[#D9B382] p-8 w-4/5 rounded-lg shadow-lg flex flex-col items-center">
-        <h2 className="text-xl italic text-white mb-2">Mug Match Coffee</h2>
-        <p className="italic text-white">You deserve a treat! &lt;3</p>
+      {/* Content Section */}
+      <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl">
+        {/* Recommended Coffee */}
+        <div className="bg-[#F5A9A9] p-6 rounded-lg shadow-lg text-center">
+          <h3 className="text-xl font-semibold border-b-2 border-white pb-2">Recommended Coffee</h3>
+          <p className="text-black mt-3">Your personalized coffee recommendations based on your quiz results.</p>
+        </div>
 
-        {/* Card Container */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 w-full">
-          {/* Recommended Coffee */}
-          <div className="bg-[#F5A9A9] p-6 rounded-lg shadow-md text-center">
-            <h3 className="italic text-lg border-b-2 border-white mb-2">Recommended Coffee</h3>
-            <p className="text-black">Recommended Coffee will appear here, and will be based on quiz results.</p>
-          </div>
+        {/* Nearby Coffee Shops */}
+        <div className="bg-[#F5A9A9] p-6 rounded-lg shadow-lg text-center">
+          <h3 className="text-xl font-semibold border-b-2 border-white pb-2">Nearby Coffee Shops</h3>
+          <p className="text-black mt-3">Find coffee shops near you with the help of Google Places API.</p>
+        </div>
 
-          {/* Nearby Coffee Shops */}
-          <div className="bg-[#F5A9A9] p-6 rounded-lg shadow-md text-center">
-            <h3 className="italic text-lg border-b-2 border-white mb-2">Nearby Coffee Shops</h3>
-            <p className="text-black">With the help of an API, some shops will appear here.</p>
-          </div>
-
-          {/* Daily Coffee Fact */}
-          <div className="bg-[#F5A9A9] p-6 rounded-lg shadow-md text-center">
-            <h3 className="italic text-lg border-b-2 border-white mb-2">Daily Coffee Fact</h3>
-            <p className="text-black">With the help of an API, Coffee facts that cycle out daily will appear here.</p>
-          </div>
+        {/* Daily Coffee Fact */}
+        <div className="bg-[#F5A9A9] p-6 rounded-lg shadow-lg text-center">
+          <h3 className="text-xl font-semibold border-b-2 border-white pb-2">Daily Coffee Fact</h3>
+          <p className="text-black mt-3">Learn something new about coffee every day!</p>
         </div>
       </div>
+
+      {/* Logout Button */}
+      <button
+        onClick={handleLogout}
+        className="mt-8 bg-red-600 hover:bg-red-800 text-white py-2 px-6 rounded-lg transition shadow-lg"
+      >
+        Logout
+      </button>
     </div>
   );
 };
