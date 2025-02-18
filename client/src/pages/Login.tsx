@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // ✅ Import navigation hook
 import { login, setAuthToken } from "../utils/api";
 
-interface LoginProps {
-  onLogin: () => void;  // ✅ Define onLogin prop explicitly
-}
+
 
 const Login: React.FC = () => { 
   const navigate = useNavigate(); // ✅ Enables redirection after login

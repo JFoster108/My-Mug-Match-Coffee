@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-.bg-background {
-  @apply bg-[#FFF5DC]; /* Light cream color */
+body {
+    @apply bg-gradient-to-b from-[#3E2A1C] via-[#B68D60] to-[#FFF5DC];
+    font-family: 'Poppins', sans-serif;
+    color: #3D2B1F; /* Dark roast shade */
+}
+
+h1, h2, h3 {
+    font-family: 'Dancing Script', cursive;
+    color: gold;
 }

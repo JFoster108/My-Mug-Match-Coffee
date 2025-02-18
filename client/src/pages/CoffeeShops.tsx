@@ -47,26 +47,38 @@ const CoffeeShops = () => {
       <h1 className="text-3xl font-display font-bold text-primary text-center mb-6">
         Nearby Coffee Shops
       </h1>
-
-      {loading ? (
-        <p className="text-secondary text-center">Loading nearby coffee shops...</p>
-      ) : error ? (
-        <p className="text-red-500 text-center">{error}</p>
-      ) : coffeeShops.length > 0 ? (
-        <ul className="space-y-4">
-          {coffeeShops.map((shop, index) => (
-            <li key={index} className="p-4 border-b border-gray-300 flex flex-col">
-              <span className="text-lg font-bold text-secondary">{shop.name}</span>
-              <span className="text-textDark">{shop.address}</span>
-              <span className="text-sm text-gray-500">Rating: {shop.rating} ⭐</span>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="text-secondary text-center">No coffee shops found nearby.</p>
+  
+      {/* Show Loading Message */}
+      {loading && (
+        <p className="text-secondary text-center text-lg">☕ Finding coffee shops near you...</p>
       )}
+  
+      {/* Show Error Message */}
+      {error && (
+        <p className="text-red-500 text-center text-lg">{error}</p>
+      )}
+  
+      {/* Coffee Shops List */}
+      <section className="bg-white shadow-lg rounded-lg p-6">
+        {coffeeShops.length > 0 ? (
+          <ul className="space-y-4">
+            {coffeeShops.map((shop, index) => (
+              <li key={index} className="p-4 border-b border-gray-300 flex flex-col">
+                <span className="text-lg font-bold text-secondary">{shop.name}</span>
+                <span className="text-textDark">{shop.address}</span>
+                <span className="text-sm text-gray-500">⭐ Rating: {shop.rating}</span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          !loading && !error && (
+            <p className="text-secondary text-center">No coffee shops found near you.</p>
+          )
+        )}
+      </section>
     </div>
   );
-};
+  
+}
 
 export default CoffeeShops;

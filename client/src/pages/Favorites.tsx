@@ -22,22 +22,22 @@ const Favorites = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-background text-textDark">
-      <h1 className="text-3xl font-bold mb-6">❤️ Favorite Coffees</h1>
-      <div className="w-full max-w-4xl bg-white p-6 rounded-lg shadow-lg">
-        {favorites.length === 0 ? (
-          <p>No favorites saved yet.</p>
-        ) : (
-          <ul className="space-y-4">
-            {favorites.map((coffee, index) => (
-              <li key={index} className="p-4 border rounded-lg shadow-md">
-                <h2 className="text-xl font-bold">{coffee.name}</h2>
-                <p>{coffee.description}</p>
-                <p className="text-sm text-gray-500">Flavor: {coffee.flavor_profile}</p>
-              </li>
-            ))}
-          </ul>
-        )}
+    <div className="min-h-screen bg-gradient-to-b from-[#6B4426] to-[#D9B382] flex justify-center items-center p-10">
+      <div className="bg-[#FFF5DC] p-10 rounded-lg shadow-lg w-full max-w-3xl">
+        <h1 className="text-3xl font-display text-[#6B4426] text-center mb-6">Your Favorite Coffees</h1>
+        <section className="bg-white shadow-lg rounded-lg p-6">
+          {favorites.length > 0 ? (
+            <ul className="space-y-4">
+              {favorites.map((coffee, index) => (
+                <li key={index} className="p-4 border-b border-gray-300">
+                  <span className="font-bold text-[#6B4426]">{coffee.name}</span> - {coffee.description}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-[#6B4426] text-center">No favorite coffees yet. Explore and save your favorites!</p>
+          )}
+        </section>
       </div>
     </div>
   );

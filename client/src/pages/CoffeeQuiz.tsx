@@ -1,78 +1,55 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 const CoffeeQuiz = () => {
-  const [preferences, setPreferences] = useState({
+  const [answers, setAnswers] = useState({
     flavor: "",
-    temperature: "",
-    milk: "",
+    intensity: "",
+    milkPreference: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setPreferences({
-      ...preferences,
-      [e.target.name]: e.target.value,
-    });
+    setAnswers({ ...answers, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Quiz submitted! Your preferences have been saved.");
+    console.log("Quiz Answers:", answers);
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-[#D9B382] to-[#A67C52] text-white">
-      <h1 className="text-3xl font-bold mb-6">☕ Coffee Quiz</h1>
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-lg w-96 text-black">
-        <label className="block mb-4">
-          <span className="text-lg">Flavor Profile:</span>
-          <select
-            name="flavor"
-            value={preferences.flavor}
-            onChange={handleChange}
-            className="mt-2 w-full border rounded p-2"
-          >
-            <option value="">Select one</option>
-            <option value="bold">Bold</option>
-            <option value="sweet">Sweet</option>
+    <div className="flex justify-center items-center h-screen bg-gradient-to-b from-[#6B4426] to-[#D9B382]">
+      <div className="bg-[#FFF5DC] p-10 rounded-lg shadow-lg w-96 text-center">
+        <h2 className="text-3xl font-display text-[#6B4426] mb-4">Find Your Perfect Coffee</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <label className="block text-[#6B4426] text-lg">Favorite Flavor:</label>
+          <select name="flavor" onChange={handleChange} className="w-full p-3 border border-[#D9B382] rounded-md">
+            <option value="">Select</option>
+            <option value="chocolate">Chocolate</option>
             <option value="nutty">Nutty</option>
             <option value="fruity">Fruity</option>
           </select>
-        </label>
 
-        <label className="block mb-4">
-          <span className="text-lg">Temperature:</span>
-          <select
-            name="temperature"
-            value={preferences.temperature}
-            onChange={handleChange}
-            className="mt-2 w-full border rounded p-2"
-          >
-            <option value="">Select one</option>
-            <option value="hot">Hot</option>
-            <option value="iced">Iced</option>
+          <label className="block text-[#6B4426] text-lg">Intensity:</label>
+          <select name="intensity" onChange={handleChange} className="w-full p-3 border border-[#D9B382] rounded-md">
+            <option value="">Select</option>
+            <option value="mild">Mild</option>
+            <option value="medium">Medium</option>
+            <option value="strong">Strong</option>
           </select>
-        </label>
 
-        <label className="block mb-4">
-          <span className="text-lg">Milk Preference:</span>
-          <select
-            name="milk"
-            value={preferences.milk}
-            onChange={handleChange}
-            className="mt-2 w-full border rounded p-2"
-          >
-            <option value="">Select one</option>
-            <option value="none">No Milk</option>
-            <option value="dairy">Dairy</option>
-            <option value="almond">Almond Milk</option>
-            <option value="oat">Oat Milk</option>
+          <label className="block text-[#6B4426] text-lg">Milk Preference:</label>
+          <select name="milkPreference" onChange={handleChange} className="w-full p-3 border border-[#D9B382] rounded-md">
+            <option value="">Select</option>
+            <option value="black">Black</option>
+            <option value="with milk">With Milk</option>
+            <option value="oat milk">Oat Milk</option>
           </select>
-        </label>
 
-        <button type="submit" className="bg-primary text-white py-2 px-4 rounded-lg hover:bg-secondary transition">
-          Submit Preferences
-        </button>
-      </form>
+          <button type="submit" className="w-full bg-[#6B4426] text-[#FFF5DC] p-3 rounded-md hover:bg-[#5A3A1E] transition">
+            Find My Coffee
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

@@ -9,7 +9,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#6B4226", // Coffee brown
+        primary: "#6B4426", // Coffee brown
         secondary: "#D9B382", // Latte beige
         accent: "#A67C52", // Mocha shade
         background: "#FFF5DC", // Light cream
@@ -18,6 +18,7 @@ export default {
       fontFamily: {
         sans: ["Inter", "sans-serif"],
         display: ["Poppins", "sans-serif"],
+        cursive: ["Dancing Script", "cursive"], // Gold cursive font
       },
     },
   },
