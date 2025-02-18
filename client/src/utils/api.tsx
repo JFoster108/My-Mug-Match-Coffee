@@ -1,5 +1,11 @@
 import axios from "axios";
 
+// Load environment variables
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const GOOGLE_PLACES_API_KEY = import.meta.env.VITE_GOOGLE_PLACES_API_KEY;
+console.log("API Base URL:", API_BASE_URL);
+console.log("Google Places API Key:", GOOGLE_PLACES_API_KEY);
+
 // Define API response types
 export interface User {
   id: string;
@@ -8,6 +14,12 @@ export interface User {
   username?: string;
 }
 
+export interface CoffeeShop {
+  name: string;
+  address: string;
+  rating: number;
+  place_id: string;
+}
 export interface Coffee {
   coffee_id: string;
   name: string;
@@ -30,128 +42,99 @@ export interface AuthResponse {
   user: User;
 }
 
-// Create Axios instance
-const API = axios.create({
-  baseURL: "http://localhost:5000/api", // Change this when deploying
+// Create an Axios instance
+const api = axios.create({
+  baseURL: "/api", // Uses Vite proxy instead of hardcoding localhost
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
-// Function to set authentication token in headers
-export const setAuthToken = (token: string | null): void => {
+// 🔹 Function to Log In
+export const login = async (
+  formData: { email: string; password: string }
+): Promise<AuthResponse> => {
+  const response = await api.post<AuthResponse>("/auth/login", formData);
+  return response.data;
+};
+
+// 🔹 Set auth token in Axios for future requests
+export const setAuthToken = (token: string | null) => {
   if (token) {
-    API.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    localStorage.setItem("token", token);
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   } else {
-    delete API.defaults.headers.common["Authorization"];
+    localStorage.removeItem("token");
+    delete api.defaults.headers.common["Authorization"];
   }
 };
 
-// Authentication APIs
-export const signup = (userData: { name: string; username: string; email: string; password: string }) =>
-  API.post<AuthResponse>("/auth/signup", userData);
-
-export const login = (userData: { email: string; password: string }) =>
-  API.post<AuthResponse>("/auth/login", userData);
-
-export const verifyToken = () => API.get<{ message: string; user: User }>("/auth/verify");
-
-export const updateUserCredentials = async (email: string, password: string) => {
-  try {
-      const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/user/update", {
-          method: "PUT",
-          headers: {
-              "Authorization": `Bearer ${token}`,
-              "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ email, password }),
-      });
-
-      if (!response.ok) {
-          throw new Error("Failed to update credentials");
-      }
-
-      return response.json();
-  } catch (error) {
-      console.error("Error updating credentials:", error);
-      throw error;
-  }
-};
-
-// Coffee APIs
-export const getCoffeeRecommendations = () => API.get<Coffee[]>("/coffee/recommendations");
-
-export const getSavedMatches = () => API.get<Coffee[]>("/coffee/matches");
-
-export const saveCoffeeMatch = (coffeeId: string) => API.post<Favorite>("/coffee/matches", { coffee_id: coffeeId });
-
-export const fetchSavedCoffeeMatches = async () => {
+export const saveCoffeeMatch = async (coffeeId: string): Promise<void> => {
   const token = localStorage.getItem("token");
-  if (!token) {
-      throw new Error("User is not authenticated");
-  }
+  if (!token) throw new Error("No authentication token found");
 
-  const response = await fetch("/api/coffee/matches", {
-      method: "GET",
-      headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json",
-      },
+  await axios.post("/api/coffee/matches", { coffee_id: coffeeId }, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+
+export const fetchSavedCoffeeMatches = async (): Promise<Coffee[]> => {
+  const token = localStorage.getItem("token");
+  if (!token) throw new Error("No authentication token found");
+
+  const response = await axios.get<Coffee[]>("/api/coffee/matches", {
+    headers: { Authorization: `Bearer ${token}` },
   });
 
-  if (!response.ok) {
-      throw new Error("Failed to fetch saved coffee matches");
-  }
-
-  return response.json();
-};
-
-// Quiz APIs
-export const saveQuizResults = (preferences: Record<string, string>) =>
-  API.post<{ message: string }>("/quiz/save", { preferences });
-
-export const getQuizResults = () => API.get<{ quizResults: Record<string, string> }>("/quiz/results");
-
-export const fetchQuizResults = async () => {
-  try {
-      const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/quiz/results", {
-          method: "GET",
-          headers: {
-              "Authorization": `Bearer ${token}`,
-              "Content-Type": "application/json"
-          },
-      });
-      if (!response.ok) {
-          throw new Error("Failed to fetch quiz results");
-      }
-      return response.json();
-  } catch (error) {
-      console.error("Error fetching quiz results:", error);
-      return null;
-  }
+  return response.data;
 };
 
 
-// Coffee Shops API (Google Places)
-export const fetchNearbyCoffeeShops = async () => {
+// 🔹 Fetch saved coffee matches
+export const getSavedMatches = async (): Promise<Coffee[]> => {
   const token = localStorage.getItem("token");
-  if (!token) {
-      throw new Error("User is not authenticated");
-  }
+  if (!token) throw new Error("No authentication token found");
 
-  const response = await fetch("/api/shops/nearby", {
-      method: "GET",
-      headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json",
-      },
+  const response = await axios.get<Coffee[]>(`${GOOGLE_PLACES_API_KEY}/coffee/matches`, {
+    headers: { Authorization: `Bearer ${token}` },
   });
 
-  if (!response.ok) {
-      throw new Error("Failed to fetch nearby coffee shops");
-  }
+  return response.data;
+};
 
-  return response.json();
+export const fetchNearbyCoffeeShops = async (latitude: number, longitude: number): Promise<CoffeeShop[]> => {
+  const response = await axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json`, {
+    params: {
+      location: `${latitude},${longitude}`,
+      radius: 5000,
+      type: "cafe",
+      key: GOOGLE_PLACES_API_KEY,
+    },
+  });
+
+  // Transform Google API response to match the CoffeeShop interface
+  return response.data.results.map((shop: any) => ({
+    name: shop.name,
+    address: shop.vicinity, // Google API uses "vicinity" for address
+    rating: shop.rating || "No rating",
+    place_id: shop.place_id,
+  }));
 };
 
 
-export default API;
+// 🔹 Fetch quiz results
+export const fetchQuizResults = async (): Promise<string> => {
+  const response = await api.get<string>("/quiz/results");
+  return response.data;
+};
+
+// 🔹 Update user credentials
+export const updateUserCredentials = async (
+  email: string,
+  password: string
+): Promise<void> => {
+  await api.put("/auth/update", { email, password });
+};
+
+export default api;

@@ -15,10 +15,12 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await login(formData);
-      localStorage.setItem("token", response.data.token);
-      setAuthToken(response.data.token);
-      onLogin();
+      const response = await login(formData); // Ensure login() returns a Promise<AuthResponse>
+      if (response?.token) {
+        localStorage.setItem("token", response.token);
+        setAuthToken(response.token);
+        onLogin();
+      }
     } catch (err: any) {
       console.error("Login Error:", err.response?.data || err.message);
     }

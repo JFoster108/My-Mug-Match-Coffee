@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import { getSavedMatches, Coffee } from "../utils/api";
 
 const SavedMatches: React.FC = () => {
-  const [matches, setMatches] = useState<Coffee[]>([]);
+  const [matches, setSavedMatches] = useState<Coffee[]>([]);
 
   useEffect(() => {
     const fetchMatches = async () => {
       try {
-        const response = await getSavedMatches();
-        setMatches(response.data);
+        const response = await getSavedMatches().then(setSavedMatches);
       } catch (err: any) {
         console.error("Error fetching matches:", err.response?.data || err.message);
       }
