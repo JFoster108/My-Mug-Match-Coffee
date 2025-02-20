@@ -14,9 +14,10 @@ const sequelize = new Sequelize(
     dialectOptions: {
       ssl: {
         require: true,
-        rejectUnauthorized: false, // ✅ Required for Render
+        rejectUnauthorized: false,
       },
     },
+    logging: false,
   }
 );
 
