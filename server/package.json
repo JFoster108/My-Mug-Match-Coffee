@@ -7,7 +7,6 @@
   "scripts": {
     "build": "npx sequelize-cli db:migrate",
     "dev": "nodemon server.js",
-    "install": "npm install --prefix client && npm install --prefix server",
     "start": "node server.js"
   },
   "keywords": [],
