@@ -5,6 +5,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build": "npx sequelize-cli db:migrate",
     "dev": "nodemon server.js",
     "install": "npm install --prefix client && npm install --prefix server",
     "start": "concurrently \"npm start --prefix client\" \"npm start --prefix server\""
