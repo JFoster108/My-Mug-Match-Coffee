@@ -1,0 +1,10 @@
+{
+  "development": {
+    "use_env_variable": "postgres://postgres:Galaxy_108@localhost:5432/module_14_homework_kanban_board",
+    "dialect": "postgres"
+  },
+  "production": {
+    "use_env_variable": "postgres://postgres:Galaxy_108@localhost:5432/module_14_homework_kanban_board",
+    "dialect": "postgres"
+  }
+}
