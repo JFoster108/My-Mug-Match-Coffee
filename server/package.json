@@ -5,7 +5,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "npx sequelize-cli db:migrate",
+    "build": "npx sequelize-cli db:migrate --config server/config/database.js",
     "dev": "nodemon server.js",
     "start": "node server.js"
   },
