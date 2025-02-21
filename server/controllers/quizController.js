@@ -1,4 +1,4 @@
-import User from '../db/models/User.js';
+import User from '../db/models/mug_match_users.js';
 
 // Save quiz results for the user
 export const saveQuizResults = async (req, res) => {

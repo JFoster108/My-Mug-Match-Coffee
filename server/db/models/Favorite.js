@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../../config/database.js';
-import User from './User.js';
+import sequelize from '../../config/connection.js';
+import User from './mug_match_users.js';
 import Coffee from './Coffee.js';
 
 const Favorite = sequelize.define('Favorite', {

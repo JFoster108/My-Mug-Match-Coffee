@@ -4,7 +4,7 @@ import authRoutes from './routes/authRoutes.js';
 import coffeeRoutes from './routes/coffeeRoutes.js';
 import quizRoutes from './routes/quizRoutes.js';
 import shopRoutes from './routes/shopRoutes.js';
-import database from './config/database.js';
+import database from './config/connection.js';
 
 dotenv.config();
 

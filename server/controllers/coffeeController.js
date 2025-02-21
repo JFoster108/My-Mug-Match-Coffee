@@ -2,7 +2,7 @@ import { validate as isUUID } from 'uuid';
 import { Op } from 'sequelize';
 import Favorite from '../db/models/Favorite.js';
 import Coffee from '../db/models/Coffee.js';
-import User from '../db/models/User.js';
+import User from '../db/models/mug_match_users.js';
 
 // Fetch coffee recommendations based on quiz results
 export const getCoffeeRecommendations = async (req, res) => {
