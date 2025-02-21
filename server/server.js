@@ -12,6 +12,7 @@ const app = express();
 app.use(express.json());
 
 // Routes
+app.use(express.static('../client/dist'));
 app.use('/api/auth', authRoutes);
 app.use('/api/coffee', coffeeRoutes);
 app.use('/api/quiz', quizRoutes);
